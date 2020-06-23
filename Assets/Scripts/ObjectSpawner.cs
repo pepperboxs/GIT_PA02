@@ -30,7 +30,7 @@ public class ObjectSpawner : MonoBehaviour
 
     void SpawnObject()
     {
-        float xPosition = Random.Range(-5, 5);
+        float xPosition = Random.Range(-3, 3);
         Vector3 SpawnPos = transform.position + new Vector3(xPosition, 0, 0);
         Instantiate(myObjects[RandomObj], SpawnPos, Quaternion.identity);
     }

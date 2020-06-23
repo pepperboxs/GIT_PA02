@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private HUD HUDscript;
     private GameManager GameManager;
     private CharacterController thisController;
     [SerializeField] private float JumpValue = 10;
@@ -21,7 +22,9 @@ public class Player : MonoBehaviour
         thisController = GetComponent<CharacterController>();
         thisAnimator = GetComponentInChildren<Animator>();
         playerMesh = transform.GetChild(0);
+
         GameManager = GameObject.Find("Prefab_UI").GetComponent<GameManager>();
+        HUDscript = GameObject.Find("Prefab_UI").GetComponent<HUD>();
     }
 
     void Update()
@@ -62,6 +65,11 @@ public class Player : MonoBehaviour
         {
             Destroy(other.gameObject);
             GameManager.Lives -= 1;
+            HUDscript.UpdateLives();
+            if (GameManager.Lives == 0)
+            {
+                HUDscript.GameOver();
+            }    
         }
     }
 }
