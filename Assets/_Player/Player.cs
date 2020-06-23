@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private GameManager GameManager;
     private CharacterController thisController;
     [SerializeField] private float JumpValue = 10;
     [SerializeField] private float Gravity = 10;
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
         thisController = GetComponent<CharacterController>();
         thisAnimator = GetComponentInChildren<Animator>();
         playerMesh = transform.GetChild(0);
+        GameManager = GameObject.Find("Prefab_UI").GetComponent<GameManager>();
     }
 
     void Update()
@@ -54,4 +56,12 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -1.5f, 1.5f), transform.position.y, transform.position.z);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Objects")
+        {
+            Destroy(other.gameObject);
+            GameManager.Lives -= 1;
+        }
+    }
 }

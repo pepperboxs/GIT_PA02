@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Obstacles : MonoBehaviour
 {
+    private GameManager GameManager;
     [SerializeField] private int Hitpoints = 3;
     [SerializeField] private bool RandomRotation = false;
 
     private void Start()
     {
-        if(RandomRotation)
+        GameManager = GameObject.Find("Prefab_UI").GetComponent<GameManager>();
+        if (RandomRotation)
             transform.eulerAngles = new Vector3(Random.Range(0, 180), Random.Range(0, 180), Random.Range(0, 180));
     }
 
@@ -20,6 +22,15 @@ public class Obstacles : MonoBehaviour
         if(transform.position.z <= -8)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "ScorePoint")
+        {
+            Destroy(gameObject);
+            GameManager.Score += 1;
         }
     }
 }
